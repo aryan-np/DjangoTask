@@ -1,0 +1,14 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Django migrations (keepIng __init__.py to avoid import errors)
+Task2/Task2/migrations/
+!Task2/Task2/migrations/__init__.py
+
+# vs codes
+.vscode/
