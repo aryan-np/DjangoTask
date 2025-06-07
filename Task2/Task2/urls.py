@@ -21,13 +21,7 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    
-    path('api/todos/', views.getTodoList),
-    path('api/todos/<int:id>', views.getTodoDetail),
-    
-    path('api/createtodo', views.createTodo),
-    
-    path('api/updatetodo/<int:id>', views.updateTodo),
-    
-    path('api/deletetodo/<int:id>', views.deleteTodo),
+    # urls form CRUD operations for todo list
+    path('api/todos/', views.getAndCreateTodo, name='todo-list-create'),
+    path('api/todos/<int:id>', views.getUpdateOrDeleteTodo, name='todo-detail-update-delete'),
 ]
