@@ -17,6 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from . import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    path('api/todos/', views.getTodoList),
+    path('api/todos/<int:id>', views.getTodoDetail),
+    
+    path('api/createtodo', views.createTodo),
+    
+    path('api/updatetodo/<int:id>', views.updateTodo),
+    
+    path('api/deletetodo/<int:id>', views.deleteTodo),
 ]
