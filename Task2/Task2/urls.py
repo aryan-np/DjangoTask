@@ -24,4 +24,8 @@ urlpatterns = [
     # urls form CRUD operations for todo list
     path('api/todos/', views.getAndCreateTodo, name='todo-list-create'),
     path('api/todos/<int:id>', views.getUpdateOrDeleteTodo, name='todo-detail-update-delete'),
+    path('api/todos/completed', views.filterTodo, name='filter-todo'),
+    
+    path('api/login/',views.login),
+    path('api/register/',views.register),
 ]
