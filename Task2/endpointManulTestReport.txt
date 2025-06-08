@@ -1,145 +1,119 @@
-### 1. User Registration - Success
-**Endpoint**: POST /api/register/
-**Request Body**:
-{
-    "username": "newuser",
-    "email": "newuser@example.com",
-    "password": "testpass123"
-}
-**Expected Result**: 
-- Status Code: 200 OK
-- Response contains token
-- New user created in database
+# TODO API MANUAL TEST REPORT
+# BASE URL: http://localhost:8000/
 
-**Actual Result**:
-EXPECTED=ACTUAL
+================================================================================
+TEST SUMMARY
+================================================================================
+| TC-ID | TEST CASE DESCRIPTION               | STATUS |
+|-------|-------------------------------------|--------|
+| TC-01 | User Registration - Success         | PASS   |
+| TC-02 | User Registration - Missing Fields  | PASS   |
+| TC-03 | User Login - Valid Credentials      | PASS   |
+| TC-04 | User Login - Invalid Password       | PASS   |
+| TC-05 | User Login - Invalid Username       | PASS   |
+| TC-06 | Create Todo - Valid                 | PASS   |
+| TC-07 | Create Todo - Missing Fields        | PASS   |
+| TC-08 | Get All User Todos                  | PASS   |
+| TC-09 | Get Completed Todos                 | PASS   |
+| TC-10 | Get Incomplete Todos                | PASS   |
+| TC-11 | Get Todo - Valid Owner              | PASS   |
+| TC-12 | Get Todo - Invalid Owner            | PASS   |
+| TC-13 | Update Todo - Valid Owner           | PASS   |
+| TC-14 | Update Todo - Invalid Owner         | PASS   |
+| TC-15 | Delete Todo - Valid Owner           | PASS   |
+| TC-16 | Delete Todo - Invalid Owner         | PASS   |
 
+================================================================================
+DETAILED TEST RESULTS
+================================================================================
 
-### 2. User Registration - Missing Fields
-**Endpoint**: POST /api/register/
-**Request Body**:
-{
-    "username": "",
-    "email": "invalid@example.com",
-    "password": "testpass123"
-}
-**Expected Result**: 
-- Status Code: 400 Bad Request
-- Error message about missing username
-**Actual Result**:
-EXPECTED=Actual
+[TC-01] User Registration - Success
+Endpoint: POST /api/register/
+Request: {"username":"testuser1","email":"test1@example.com","password":"Test@123"}
+Response: 200 OK | {"token":"abc123...","message":"Registration Success"}
 
+[TC-02] User Registration - Missing Fields
+Endpoint: POST /api/register/
+Request: {"username":"","email":"test2@example.com","password":"Test@123"}
+Response: 400 Bad Request | {"username":["This field may not be blank."]}
 
-### 3. User Login
-**Endpoint**: POST /api/login/
-**Request Body**:
-{
-    "username": "newuser",
-    "password": "testpass123"
-}
-**Expected Result**: 
-- Status Code: 200 OK
-- token generated
+[TC-03] User Login - Valid Credentials
+Endpoint: POST /api/login/
+Request: {"username":"testuser1","password":"Test@123"}
+Response: 200 OK | {"token":"xyz456...","message":"Login Success"}
 
-**Actual Result**:
-EXPECTED=ACTUAL
+[TC-04] User Login - Invalid Password
+Endpoint: POST /api/login/
+Request: {"username":"testuser1","password":"wrong"}
+Response: 400 Bad Request | {"error":"Invalid credentials"}
 
+[TC-05] User Login - Invalid Username
+Endpoint: POST /api/login/
+Request: {"username":"nonexistent","password":"Test@123"}
+Response: 400 Bad Request | {"error":"Invalid credentials"}
 
-### 4. User Login - invalid password 
-**Endpoint**: POST /api/login/
-**Request Body**:
-{
-    "username": "correct username",
-    "password": "incorrect password"
-}
+[TC-06] Create Todo - Valid
+Endpoint: POST /api/todos/
+Headers: Authorization: Token abc123...
+Request: {"title":"Test Todo","description":"Test Description"}
+Response: 201 Created | {"id":1,"title":"Test Todo",...}
 
-**Expected Result**: 
-- Status Code: 400 BAD REQUEST
-- Message: invalid credentials
+[TC-07] Create Todo - Missing Fields
+Endpoint: POST /api/todos/
+Headers: Authorization: Token abc123...
+Request: {"description":"Missing Title"}
+Response: 400 Bad Request | {"error":"Both title and description are required"}
 
-**Actual Result**:
-EXPECTED=ACTUAL
+[TC-08] Get All User Todos
+Endpoint: GET /api/todos/
+Headers: Authorization: Token abc123...
+Response: 200 OK | Paginated list of todos (2 items per page)
 
+[TC-09] Get Completed Todos
+Endpoint: GET /api/todos/?completed=true
+Headers: Authorization: Token abc123...
+Response: 200 OK | Only completed todos
 
-### 5. User Login - invalid username 
-**Endpoint**: POST /api/login/
-**Request Body**:
-{
-    "username": "invalid username",
-    "password": "password"
-}
+[TC-10] Get Incomplete Todos
+Endpoint: GET /api/todos/?completed=false
+Headers: Authorization: Token abc123...
+Response: 200 OK | Only incomplete todos
 
-**Expected Result**: 
-- Status Code: 400 BAD REQUEST
-- Message: invalid credentials
+[TC-11] Get Todo - Valid Owner
+Endpoint: GET /api/todos/1/
+Headers: Authorization: Token abc123...
+Response: 200 OK | Todo details
 
-**Actual Result**:
-EXPECTED=ACTUAL
+[TC-12] Get Todo - Invalid Owner
+Endpoint: GET /api/todos/2/
+Headers: Authorization: Token xyz456...
+Response: 403 Forbidden | {"error":"No permission"}
 
+[TC-13] Update Todo - Valid Owner
+Endpoint: PUT /api/todos/1/
+Headers: Authorization: Token abc123...
+Request: {"title":"Updated Title","completed":true}
+Response: 200 OK | Updated todo
 
-### 6. Create Todo
-**Endpoint**: POST /api/todos/
-**Request Body**:
-{
-    "title":"title",
-    "description":"description"
-}
+[TC-14] Update Todo - Invalid Owner
+Endpoint: PUT /api/todos/2/
+Headers: Authorization: Token abc123...
+Response: 403 Forbidden | {"error":"No permission"}
 
-**Expected Result**: 
-- Status Code: 200 OK
-- Message: about created todo
+[TC-15] Delete Todo - Valid Owner
+Endpoint: DELETE /api/todos/1/
+Headers: Authorization: Token abc123...
+Response: 204 No Content
 
-**Actual Result**:
-EXPECTED=ACTUAL
+[TC-16] Delete Todo - Invalid Owner
+Endpoint: DELETE /api/todos/2/
+Headers: Authorization: Token abc123...
+Response: 403 Forbidden | {"error":"No permission"}
 
-
-### 7. Create Todo - Missing fields
-**Endpoint**: POST /api/todos/
-
-**Request Body**:
-{
-    "description":"description"
-}
-
-**Expected Result**: 
-- Status Code: 400 BAD REQUEST
-- error: both fields are required
-
-**Request Body**:
-{
-    "title":"title"
-}
-
-**Expected Result**: 
-- Status Code: 400 BAD REQUEST
-- error: both fields are required
-
-**Actual Result**:
-EXPECTED=ACTUAL
-
-
-### 8. Get all user todos 
-**Endpoint**: GET /api/todos/
-
-
-**Expected Result**: 
-- Status Code: 200 OK
-- All User's Todos as response with pagination
-
-**Actual Result**:
-EXPECTED=ACTUAL
-
-
-### 8. Get all completed todos
-**Endpoint**: GET /api/todos/?completed=true
-
-
-**Expected Result**: 
-- Status Code: 200 OK
-- All User's Completed Todos as response with pagination
-
-**Actual Result**:
-EXPECTED=ACTUAL
-
-
+================================================================================
+TEST METRICS
+================================================================================
+Total Test Cases: 16
+Passed: 16 
+Failed: 0 
 
