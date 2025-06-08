@@ -1,0 +1,145 @@
+### 1. User Registration - Success
+**Endpoint**: POST /api/register/
+**Request Body**:
+{
+    "username": "newuser",
+    "email": "newuser@example.com",
+    "password": "testpass123"
+}
+**Expected Result**: 
+- Status Code: 200 OK
+- Response contains token
+- New user created in database
+
+**Actual Result**:
+EXPECTED=ACTUAL
+
+
+### 2. User Registration - Missing Fields
+**Endpoint**: POST /api/register/
+**Request Body**:
+{
+    "username": "",
+    "email": "invalid@example.com",
+    "password": "testpass123"
+}
+**Expected Result**: 
+- Status Code: 400 Bad Request
+- Error message about missing username
+**Actual Result**:
+EXPECTED=Actual
+
+
+### 3. User Login
+**Endpoint**: POST /api/login/
+**Request Body**:
+{
+    "username": "newuser",
+    "password": "testpass123"
+}
+**Expected Result**: 
+- Status Code: 200 OK
+- token generated
+
+**Actual Result**:
+EXPECTED=ACTUAL
+
+
+### 4. User Login - invalid password 
+**Endpoint**: POST /api/login/
+**Request Body**:
+{
+    "username": "correct username",
+    "password": "incorrect password"
+}
+
+**Expected Result**: 
+- Status Code: 400 BAD REQUEST
+- Message: invalid credentials
+
+**Actual Result**:
+EXPECTED=ACTUAL
+
+
+### 5. User Login - invalid username 
+**Endpoint**: POST /api/login/
+**Request Body**:
+{
+    "username": "invalid username",
+    "password": "password"
+}
+
+**Expected Result**: 
+- Status Code: 400 BAD REQUEST
+- Message: invalid credentials
+
+**Actual Result**:
+EXPECTED=ACTUAL
+
+
+### 6. Create Todo
+**Endpoint**: POST /api/todos/
+**Request Body**:
+{
+    "title":"title",
+    "description":"description"
+}
+
+**Expected Result**: 
+- Status Code: 200 OK
+- Message: about created todo
+
+**Actual Result**:
+EXPECTED=ACTUAL
+
+
+### 7. Create Todo - Missing fields
+**Endpoint**: POST /api/todos/
+
+**Request Body**:
+{
+    "description":"description"
+}
+
+**Expected Result**: 
+- Status Code: 400 BAD REQUEST
+- error: both fields are required
+
+**Request Body**:
+{
+    "title":"title"
+}
+
+**Expected Result**: 
+- Status Code: 400 BAD REQUEST
+- error: both fields are required
+
+**Actual Result**:
+EXPECTED=ACTUAL
+
+
+### 8. Get all user todos 
+**Endpoint**: GET /api/todos/
+
+
+**Expected Result**: 
+- Status Code: 200 OK
+- All User's Todos as response with pagination
+
+**Actual Result**:
+EXPECTED=ACTUAL
+
+
+### 8. Get all completed todos
+**Endpoint**: GET /api/todos/?completed=true
+
+
+**Expected Result**: 
+- Status Code: 200 OK
+- All User's Completed Todos as response with pagination
+
+**Actual Result**:
+EXPECTED=ACTUAL
+
+
+
