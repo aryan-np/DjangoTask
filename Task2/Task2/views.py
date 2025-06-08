@@ -18,18 +18,19 @@ def getAndCreateTodo(request):
     
     # Handle GET request - return all todo items of user
     if request.method=='GET':
+         # retrieving all list of the user and serializing into json
+        lists = TodoModel.objects.filter(owner=request.user).order_by('id')
+        
         # check if completed parameter exists
         completedParam = request.query_params.get('completed')
         
         # apply filter to completed (true or false)
         if completedParam is not None:
             if completedParam.lower() == 'true':
-                todos = todos.filter(completed=True)
+                lists = lists.filter(completed=True)
             elif completedParam.lower() == 'false':
-                todos = todos.filter(completed=False)
+                lists = lists.filter(completed=False)
             
-        # retrieving all list of the user and serializing into json
-        lists = TodoModel.objects.filter(owner=request.user).order_by('id')
         
         # returning list of 2 todos in 1 page
         paginator = PageNumberPagination()
