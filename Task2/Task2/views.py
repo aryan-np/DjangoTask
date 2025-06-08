@@ -18,6 +18,16 @@ def getAndCreateTodo(request):
     
     # Handle GET request - return all todo items of user
     if request.method=='GET':
+        # check if completed parameter exists
+        completedParam = request.query_params.get('completed')
+        
+        # apply filter to completed (true or false)
+        if completedParam is not None:
+            if completedParam.lower() == 'true':
+                todos = todos.filter(completed=True)
+            elif completedParam.lower() == 'false':
+                todos = todos.filter(completed=False)
+            
         # retrieving all list of the user and serializing into json
         lists = TodoModel.objects.filter(owner=request.user).order_by('id')
         
@@ -124,15 +134,4 @@ def register(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def filterTodo(request):
-    # Filter todos owned by the user and completed=True
-    todos = TodoModel.objects.filter(owner=request.user, completed=True)
-    
-    # Serialize the filtered queryset
-    serializer = TodoModelSerializer(todos, many=True)
-    
-    # Return the serialized data as response
-    return Response(serializer.data, status=status.HTTP_200_OK)
+
