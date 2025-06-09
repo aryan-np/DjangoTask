@@ -8,7 +8,14 @@
     <h2>PROFILE</h2>
     <form method="POST">
         {% csrf_token %}
-    {{form}}
+        {{form}}
+        <button type="submit">Update</button>
+    </form>
+
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
     </form>
     
 </body>
