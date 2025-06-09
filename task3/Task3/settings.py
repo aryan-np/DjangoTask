@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+LOGIN_URL = 'login'
 # Application definition
 
 INSTALLED_APPS = [
@@ -55,6 +55,7 @@ ROOT_URLCONF = 'Task3.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+         'DIRS': [BASE_DIR / 'Task3' / 'template'],
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
