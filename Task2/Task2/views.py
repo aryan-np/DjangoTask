@@ -15,6 +15,19 @@ from rest_framework.authtoken.models import Token
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def getAndCreateTodo(request):
+    """
+    Handle GET and POST requests for Todo items.
+
+    GET:
+        - Retrieve a paginated list of todos owned by the authenticated user.
+        - Supports filtering by completion status with query parameter 'completed' (true/false).
+        - Pagination returns 2 items per page.
+
+    POST:
+        - Create a new todo item for the authenticated user.
+        - Requires 'title' and 'description' in the request data.
+        - Returns the created todo item on success.
+    """
     
     # Handle GET request - return all todo items of user
     if request.method=='GET':
@@ -63,6 +76,19 @@ def getAndCreateTodo(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def getUpdateOrDeleteTodo(request, id):
+    """
+    Handle GET, PUT, PATCH, DELETE requests for a single Todo item by id.
+
+    GET:
+        - Retrieve details of the todo item if owned by the authenticated user.
+
+    PUT/PATCH:
+        - Update title, description, and/or completed status of the todo item.
+        - Only allowed if the todo item is owned by the authenticated user.
+
+    DELETE:
+        - Delete the todo item if owned by the authenticated user.
+    """
     # retrieced id from path parameter
     if not id:
         return Response({"error":"Missing todo id"},status=status.HTTP_404_NOT_FOUND)
@@ -109,6 +135,13 @@ def getUpdateOrDeleteTodo(request, id):
 
 @api_view(['POST'])
 def login(request):
+    """
+    User login endpoint.
+
+    POST:
+        - Validates user credentials using LoginSerializer.
+        - Returns a token for authenticated access on success.
+    """
     # serialize the request body
     serializer = LoginSerializer(data=request.data)
     if serializer.is_valid():
@@ -123,6 +156,13 @@ def login(request):
 
 @api_view(['POST'])
 def register(request):
+    """
+    User registration endpoint.
+
+    POST:
+        - Registers a new user using RegisterSerializer.
+        - Returns a token for authenticated access on success.
+    """
     print(request.data)
     # serialize the request body
     serializer = RegisterSerializer(data=request.data)
