@@ -18,8 +18,13 @@ from django.contrib import admin
 from django.urls import path
 
 from . import views
+from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to my site!")
 
 urlpatterns = [
+    path('/',home),
     path('admin/', admin.site.urls),
     # urls form CRUD operations for todo list
     path('api/todos/', views.getAndCreateTodo, name='todo-list-create'),
