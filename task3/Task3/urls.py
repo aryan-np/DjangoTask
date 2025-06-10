@@ -11,7 +11,7 @@ def home(request):
     return HttpResponse("Welcome to my site!")
 
 urlpatterns = [
-    path('/',home),
+    path('',home),
     path('admin/', admin.site.urls),
     path('register/', views.register,name='register'),
     path('login/', views.login,name='login'),

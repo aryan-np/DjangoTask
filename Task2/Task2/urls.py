@@ -24,7 +24,7 @@ def home(request):
     return HttpResponse("Welcome to my site!")
 
 urlpatterns = [
-    path('/',home),
+    path('',home),
     path('admin/', admin.site.urls),
     # urls form CRUD operations for todo list
     path('api/todos/', views.getAndCreateTodo, name='todo-list-create'),
