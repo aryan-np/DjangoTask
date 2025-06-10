@@ -1,22 +1,87 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>PROFILE</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: #111;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #222;
+            width: 320px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        input, button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        input {
+            background-color: #222;
+            color: #fff;
+        }
+        button {
+            background-color: #444;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #666;
+        }
+        img {
+            border-radius: 50%;
+            margin-bottom: 15px;
+            max-width: 100px;
+            height: auto;
+        }
+        p {
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
-    
-    <h2>PROFILE</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{form}}
-        <button type="submit">Update</button>
-    </form>
+    <div class="container">
+        <h2>PROFILE</h2>
 
+        <p><strong>Username:</strong> {{ request.user.username }}</p>
+        <p><strong>Email:</strong> {{ request.user.email }}</p>
 
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-    
+        {% if form.profile_picture.value %}
+            <img src="{{ form.profile_picture.value }}" alt="Profile Picture">
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Update</button>
+        </form>
+
+        <form method="post" action="{% url 'logout' %}" style="margin-top: 10px;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </div>
 </body>
 </html>
